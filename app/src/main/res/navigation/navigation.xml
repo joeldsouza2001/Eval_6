@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/otpVerificationFragment">
+
+
+    <fragment
+        android:id="@+id/otpVerificationFragment"
+        android:name="com.example.eval4.OtpVerificationFragment"
+        android:label="Verify OTP"
+        tools:layout="@layout/fragment_otp_verification" >
+        <action
+            android:id="@+id/action_otpVerificationFragment_to_otpVerifiedFragment"
+            app:destination="@id/otpVerifiedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpVerifiedFragment"
+        android:name="com.example.eval4.OtpVerifiedFragment"
+        android:label="OTP Verified Succesfully"
+        tools:layout="@layout/fragment_otp_verified" >
+        <action
+            android:id="@+id/action_otpVerifiedFragment_to_homeScreenFragment"
+            app:destination="@id/homeScreenFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="com.example.eval4.HomeScreenFragment"
+        android:label="New Card" >
+        <action
+            android:id="@+id/action_homeScreenFragment_to_selectedFragment"
+            app:destination="@id/selectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedFragment"
+        android:name="com.example.eval4.SelectedFragment"
+        android:label="New Card" />
+</navigation>
