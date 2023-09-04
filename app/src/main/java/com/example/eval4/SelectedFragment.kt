@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eval4.adapter.ItemAdapter
-import com.example.eval4.databinding.FragmentHomeScreenBinding
+import com.example.eval4.adapter.ItemAdapterHome
+import com.example.eval4.adapter.ItemAdapterSelected
 import com.example.eval4.databinding.FragmentSelectedBinding
 import com.example.eval4.model.Item
 
@@ -35,14 +35,14 @@ class SelectedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView: RecyclerView = binding.recyclerView;
 
-        val data: List<Item> = Data.dataList.filter { it.selected == true}
+        val data: List<Item> = Data().getData().filter { it.selected == true}
 
 //        val ctx = context!!
 
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ItemAdapter(requireContext(),data)
+        recyclerView.adapter = ItemAdapterSelected(requireContext(),data)
 
         val spinner = binding.spinner
 

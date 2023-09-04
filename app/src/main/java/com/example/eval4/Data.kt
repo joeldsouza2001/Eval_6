@@ -13,4 +13,8 @@ class Data {
         )
     }
 
+    fun getData():List<Item>{
+        return dataList;
+    }
+
 }

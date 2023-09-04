@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import android.widget.Button
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.eval4.adapter.ItemAdapter
+import com.example.eval4.adapter.ItemAdapterHome
 import com.example.eval4.databinding.FragmentHomeScreenBinding
 import com.example.eval4.model.Item
 
 class HomeScreenFragment : Fragment() {
 private lateinit var _binding : FragmentHomeScreenBinding
-    private val binding get() = _binding
+     val binding get() = _binding
+
+    lateinit var continueBtn : Button;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,15 +37,17 @@ private lateinit var _binding : FragmentHomeScreenBinding
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = binding.recyclerView;
+        continueBtn = binding.continueBtn
 
-        val data: List<Item> = Data.dataList
+
+        val data: List<Item> = Data().getData()
 
 //        val ctx = context!!
 
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ItemAdapter(requireContext(),data)
+        recyclerView.adapter = ItemAdapterHome(requireContext(),data,binding.continueBtn)
 
         val spinner = binding.spinner
 
@@ -55,9 +59,14 @@ private lateinit var _binding : FragmentHomeScreenBinding
 
         spinner.adapter = adapter
 
-        binding.continueBtn.setOnClickListener{
+
+        continueBtn.setOnClickListener{
             it.findNavController().navigate(R.id.action_homeScreenFragment_to_selectedFragment)
         }
+
+
+
+
 
     }
 
