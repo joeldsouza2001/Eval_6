@@ -1,21 +1,27 @@
-package com.example.eval4
+package com.example.eval4.fragments
 
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.example.eval4.databinding.FragmentOtpVerificationBinding
+import android.text.TextWatcher
+import com.example.eval4.R
 
 
 class OtpVerificationFragment : Fragment() {
         private  lateinit var _binding:FragmentOtpVerificationBinding
     private val binding get() = _binding!!
+
+    private lateinit var otpContainer : MutableList<EditText>;
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +39,19 @@ class OtpVerificationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var editList = listOf<EditText>(binding.editText,binding.editText2,binding.editText3,binding.editText4,binding.editText5,binding.editText6)
-
+        var editList = listOf<EditText>(binding.editText4,binding.editText2,binding.editText,binding.editText3,binding.editText6,binding.editText5)
+        for (i in 0 until editList.size-1) {
+            val currentEditText = editList[i]
+            val nextEditText = editList[i+1]
+            currentEditText.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    if (s?.length == 1 ) {
+                        nextEditText.requestFocus()
+                    }
+                }
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}    })
+        }
         super.onViewCreated(view, savedInstanceState)
 
         editList.forEach{it.inputType = InputType.TYPE_CLASS_NUMBER}
@@ -52,5 +69,7 @@ class OtpVerificationFragment : Fragment() {
             }
 
         }
+
+
     }
 }

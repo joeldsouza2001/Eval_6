@@ -7,32 +7,29 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eval4.R
+import com.example.eval4.databinding.ListItemBinding
 import com.example.eval4.model.Item
 
 class ItemAdapterSelected(private val context: Context, private val dataset:List<Item>):RecyclerView.Adapter<ItemAdapterSelected.ItemViewHolder>() {
 
-    class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view)
+    class ItemViewHolder( binding:ListItemBinding) : RecyclerView.ViewHolder(binding.root)
     {
-        val layout: LinearLayout = view.findViewById(R.id.layout)
-        val textView: TextView = view.findViewById(R.id.text)
-        val imageView: ImageView = view.findViewById(R.id.image)
-
-
-
+        val layout: ConstraintLayout = binding.layout
+        val textView: TextView = binding.text
+        val imageView: ImageView = binding.image
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ItemAdapterSelected.ItemViewHolder {
-        val layoutadapter =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        val card = layoutadapter.findViewById<LinearLayout>(R.id.layout)
+    ): ItemViewHolder {
+        val binding = ListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false)
 
-        return ItemViewHolder(layoutadapter)
+        return ItemViewHolder(binding)
     }
 
     override fun getItemCount() = dataset.size

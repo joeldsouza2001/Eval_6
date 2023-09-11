@@ -1,4 +1,4 @@
-package com.example.eval4
+package com.example.eval4.fragments
 
 
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
-import com.example.eval4.databinding.FragmentOtpVerificationBinding
+import com.example.eval4.R
 import com.example.eval4.databinding.FragmentOtpVerifiedBinding
 
 class OtpVerifiedFragment : Fragment() {
@@ -26,6 +26,7 @@ class OtpVerifiedFragment : Fragment() {
     ): View? {
 
         _binding = FragmentOtpVerifiedBinding.inflate(inflater,container,false)
+
         return binding.root
     }
 
