@@ -7,11 +7,11 @@ import androidx.lifecycle.ViewModel
 class DataViewModel : ViewModel() {
 
     private var _offersList = listOf<Item>(
-        Item(text =  "100 Credits Prize/Ticket Game Card"),
-        Item( text =  "Card with coke"),
-        Item( text =  "New Birthday Card"),
-        Item( text =  "Birthday game card with Discount"),
-        Item( text =  "Birthday game card with 10% discount")
+        Item(text = "100 Credits Prize/Ticket Game Card"),
+        Item(text = "Card with coke"),
+        Item(text = "New Birthday Card"),
+        Item(text = "Birthday game card with Discount"),
+        Item(text = "Birthday game card with 10% discount")
     )
 
     val offersList get() = _offersList
@@ -22,12 +22,12 @@ class DataViewModel : ViewModel() {
     val offersSelectedSize get() = _offersSelectedSize
 
 
-    fun toggleSelect(pos : Int){
+    fun toggleSelect(pos: Int) {
         _offersList[pos].selected = !_offersList[pos].selected
         updateSize()
     }
 
-    fun updateSize(){
+    fun updateSize() {
         _offersSelectedSize.value = offersSelected.size
     }
 

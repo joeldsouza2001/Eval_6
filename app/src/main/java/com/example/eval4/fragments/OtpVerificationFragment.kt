@@ -19,7 +19,6 @@ class OtpVerificationFragment : Fragment() {
         private  lateinit var _binding:FragmentOtpVerificationBinding
     private val binding get() = _binding!!
 
-    private lateinit var otpContainer : MutableList<EditText>;
 
 
 
@@ -39,7 +38,7 @@ class OtpVerificationFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        var editList = listOf<EditText>(binding.editText4,binding.editText2,binding.editText,binding.editText3,binding.editText6,binding.editText5)
+        var editList = listOf<EditText>(binding.editText,binding.editText2,binding.editText3,binding.editText4,binding.editText5,binding.editText6)
         for (i in 0 until editList.size-1) {
             val currentEditText = editList[i]
             val nextEditText = editList[i+1]
