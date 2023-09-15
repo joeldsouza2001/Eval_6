@@ -11,10 +11,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eval4.R
+import com.example.eval4.database.offers.Offers
 import com.example.eval4.databinding.ListItemBinding
 import com.example.eval4.model.Item
 
-class ItemAdapterSelected(private val context: Context, private val dataset:List<Item>):RecyclerView.Adapter<ItemAdapterSelected.ItemViewHolder>() {
+class ItemAdapterSelected(private val context: Context, private val dataset:List<Offers>):RecyclerView.Adapter<ItemAdapterSelected.ItemViewHolder>() {
 
     class ItemViewHolder( binding:ListItemBinding) : RecyclerView.ViewHolder(binding.root)
     {
@@ -36,7 +37,7 @@ class ItemAdapterSelected(private val context: Context, private val dataset:List
 
     override fun onBindViewHolder(holder:ItemViewHolder, position: Int) {
         val curItem = dataset[position]
-        holder.textView.text = curItem.text
+        holder.textView.text = curItem.title
         holder.imageView.setImageResource(curItem.image)
     }
 

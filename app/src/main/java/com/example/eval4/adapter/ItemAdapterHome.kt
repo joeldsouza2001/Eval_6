@@ -10,13 +10,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eval4.R
+import com.example.eval4.database.offers.Offers
 import com.example.eval4.databinding.ListItemBinding
 import com.example.eval4.model.Item
 
 class ItemAdapterHome(
     private val context: Context,
-    private val dataset: List<Item>,
-    private val toggleItemSelect: (Int) -> Unit
+    private val dataset: List<Offers>,
+    private val toggleItemSelect: (Offers) -> Unit
 ) : RecyclerView.Adapter<ItemAdapterHome.ItemViewHolder>() {
 
     class ItemViewHolder(binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -36,9 +37,9 @@ class ItemAdapterHome(
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val curItem = dataset[position]
-        holder.textView.text = curItem.text
+        holder.textView.text = curItem.title
         holder.imageView.setImageResource(curItem.image)
-        if (dataset[position].selected)
+        if (dataset[position].isSelected)
             holder.layout.setBackgroundResource(R.drawable.border_select)
         else
             holder.layout.setBackgroundResource(R.drawable.border)
@@ -46,16 +47,17 @@ class ItemAdapterHome(
 
         holder.itemView.setOnClickListener {
 
+
             if (holder.layout.background.constantState == ContextCompat.getDrawable(
                     context,
                     R.drawable.border
                 )?.constantState
             ) {
                 holder.layout.setBackgroundResource(R.drawable.border_select)
-                toggleItemSelect(position)
+                toggleItemSelect(curItem)
             } else {
                 holder.layout.setBackgroundResource(R.drawable.border)
-                toggleItemSelect(position)
+                toggleItemSelect(curItem)
 
             }
         }

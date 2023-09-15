@@ -12,11 +12,16 @@ import android.widget.EditText
 import androidx.navigation.findNavController
 import com.example.eval4.databinding.FragmentOtpVerificationBinding
 import android.text.TextWatcher
+import androidx.lifecycle.ViewModelProvider
 import com.example.eval4.R
+import com.example.eval4.database.otp.CheckVerifiedDatabase
+import com.example.eval4.model.CheckOtpViewModel
+import com.example.eval4.model.CheckOtpViewModelFactory
 
 
 class OtpVerificationFragment : Fragment() {
         private  lateinit var _binding:FragmentOtpVerificationBinding
+        private lateinit var checkOtpViewModel : CheckOtpViewModel
     private val binding get() = _binding!!
 
 
@@ -33,6 +38,12 @@ class OtpVerificationFragment : Fragment() {
     ): View? {
 
         _binding = FragmentOtpVerificationBinding.inflate(inflater,container,false)
+        val application = requireNotNull(requireActivity()).application
+        val dataSource = CheckVerifiedDatabase.getInstance(application).checkVerifiedDao
+        val viewModelFactory = CheckOtpViewModelFactory(dataSource, application)
+         checkOtpViewModel =
+            ViewModelProvider(
+                this, viewModelFactory).get(CheckOtpViewModel::class.java)
         return binding.root
 
     }
@@ -63,7 +74,13 @@ class OtpVerificationFragment : Fragment() {
 
                 }
             if(goToNext) {
+
+            if(!checkOtpViewModel.otpVerified.value!!){
+                checkOtpViewModel.upsert()
+            }
+
                 it.findNavController()
+
                     .navigate(R.id.action_otpVerificationFragment_to_otpVerifiedFragment)
             }
 

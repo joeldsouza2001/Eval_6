@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation2">
+
+    <fragment
+        android:id="@+id/homeScreenFragment"
+        android:name="com.example.eval4.fragments.HomeScreenFragment"
+        android:label="New Card" >
+        <action
+            android:id="@+id/action_homeScreenFragment_to_selectedFragment"
+            app:destination="@id/selectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectedFragment"
+        android:name="com.example.eval4.fragments.SelectedFragment"
+        android:label="New Card" />
+
+</navigation>

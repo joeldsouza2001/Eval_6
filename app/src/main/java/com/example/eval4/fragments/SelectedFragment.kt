@@ -7,16 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.eval4.R
+import com.example.eval4.adapter.ItemAdapterHome
 
 import com.example.eval4.adapter.ItemAdapterSelected
+import com.example.eval4.database.offers.OffersDatabase
 import com.example.eval4.databinding.FragmentSelectedBinding
 import com.example.eval4.model.DataViewModel
+import com.example.eval4.model.DataViewModelFactory
 
 class SelectedFragment : Fragment() {
-    private val sharedViewModel : DataViewModel by activityViewModels()
+    private lateinit var sharedViewModel : DataViewModel
 
     private lateinit var _binding : FragmentSelectedBinding
     private val binding get() = _binding
@@ -30,16 +34,26 @@ class SelectedFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
         _binding = FragmentSelectedBinding.inflate(inflater,container,false)
+
+
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val application = requireNotNull(requireActivity()).application
+        val dataSource = OffersDatabase.getInstance(application).offersDao
+        val viewModelFactory = DataViewModelFactory(dataSource, application)
+        sharedViewModel =
+            ViewModelProvider(
+                this, viewModelFactory
+            ).get(DataViewModel::class.java)
         binding?.apply {
             sharedViewModel = sharedViewModel
+
         }
         val recyclerView: RecyclerView = binding.recyclerView;
 
@@ -47,7 +61,10 @@ class SelectedFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = ItemAdapterSelected(requireContext(),sharedViewModel.offersSelected)
+        sharedViewModel.os.observe(viewLifecycleOwner,{
+            recyclerView.adapter = ItemAdapterSelected(requireContext(),it)
+        })
+
 
         val spinner = binding.spinner
 
