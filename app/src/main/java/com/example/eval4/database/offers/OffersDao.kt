@@ -20,4 +20,10 @@ interface OffersDao {
 
     @Query("select * from offers where isSelected='1'")
     suspend fun fetchSelected():List<Offers>
+
+    @Query("delete from offers")
+    suspend fun delete()
+
+    @Query("select * from offers order by id desc limit 1")
+    suspend fun fetchRecent():Offers
 }

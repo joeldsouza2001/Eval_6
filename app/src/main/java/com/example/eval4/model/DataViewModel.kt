@@ -15,23 +15,14 @@ import kotlinx.coroutines.withContext
 
 
 class DataViewModel(
-    val database : OffersDao,
-     application: Application
+    val database: OffersDao,
+    application: Application
 ) : AndroidViewModel(application) {
 
-    private var _offersList :MutableLiveData<List<Offers>> = MutableLiveData<List<Offers>>()
-//        Item(text = "100 Credits Prize/Ticket Game Card"),
-//        Item(text = "Card with coke"),
-//        Item(text = "New Birthday Card"),
-//        Item(text = "Birthday game card with Discount"),
-//        Item(text = "Birthday game card with 10% discount")
-//    )
+    private var _offersList: MutableLiveData<List<Offers>> = MutableLiveData<List<Offers>>()
+
 
     val offersList get() = _offersList
-
-private var _os : MutableLiveData<List<Offers>> = MutableLiveData<List<Offers>>()
-    val os get() = _os
-    val offersSelected get() = _offersList.value!!.filter { it.isSelected }
 
     private var _offersSelectedSize = MutableLiveData<Int>()
     val offersSelectedSize get() = _offersSelectedSize
@@ -39,82 +30,57 @@ private var _os : MutableLiveData<List<Offers>> = MutableLiveData<List<Offers>>(
     init {
         _offersSelectedSize.value = 0
         fetchAll()
-        fetchSelected()
-//        updateSize()
-//        _offersSelectedSize.value = _os.value!!.filter { it.isSelected }.size
-
 
     }
 
 
-
-
-    fun toggleSelect(offer: Offers) {
-//        _offersList[pos].selected = !_offersList[pos].selected
-        Log.i("t","${offer}")
-
-//
-        viewModelScope.launch{
-            withContext(Dispatchers.Main){
-                database.update(Offers(offer.id,title=offer.title, isSelected = !offer.isSelected))
-
-//                updateSize()
-//                fetchAll()
-                fetchSelected()
-            }
-
-        }
-
-
-    }
-
-//    fun updateSize() {
-//        _offersSelectedSize.value = offersSelected.size
-//
-//
-//    }
-
-    fun insert( title:String){
+    fun toggleSelect(offer: Offers, pos: Int) {
 
         viewModelScope.launch {
-            database.insert(Offers(title=title, isSelected = false))
-            withContext(Dispatchers.Main){
-            fetchAll()
-            }
+
+            database.update(Offers(offer.id, title = offer.title, isSelected = !offer.isSelected))
+
+
         }
+        _offersList.value?.get(pos)?.isSelected = !(_offersList.value?.get(pos)?.isSelected)!!
+        updateSize()
+
+    }
+
+
+    fun updateSize() {
+        _offersSelectedSize.value = _offersList.value?.filter { it.isSelected }?.size
 
 
     }
 
-    fun fetchAll(){
+    fun insert(title: String) {
+//        viewModelScope.launch {
+//            database.delete()
+//        }
+        val newOffer = Offers(title = title, isSelected = false)
+
         viewModelScope.launch {
-            withContext(Dispatchers.Main){
-                val lst = database.fetch()
-                _offersList.value = lst
-//                _offersSelectedSize.value = _os.value!!.filter { it.isSelected }.size
-
-
-            }
+            database.insert(newOffer)
+            val recentAdded = database.fetchRecent()
+            _offersList.value = _offersList.value?.plus(recentAdded)
 
         }
+
     }
 
-    fun fetchSelected(){
+
+
+    fun fetchAll() {
         viewModelScope.launch {
-            withContext(Dispatchers.Main){
-                val lst = database.fetchSelected()
-                _os.value = lst
-                _offersSelectedSize.value = _os.value!!.filter { it.isSelected }.size
 
-                Log.i("aa","${_os.value}")
-            }
-
+            val lst = database.fetch()
+            _offersList.value = lst
+            updateSize()
 
         }
 
     }
-
-
 
 
 }

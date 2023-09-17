@@ -11,5 +11,5 @@ data class Offers(
     val id:Int = 0,
     val image:Int = R.drawable.lightning1,
     val title:String,
-    val isSelected : Boolean = false
+    var isSelected : Boolean = false
 )

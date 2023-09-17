@@ -1,6 +1,7 @@
 package com.example.eval4.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -61,10 +62,16 @@ class SelectedFragment : Fragment() {
         val layoutManager: RecyclerView.LayoutManager = GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
 
         recyclerView.layoutManager = layoutManager
-        sharedViewModel.os.observe(viewLifecycleOwner,{
-            recyclerView.adapter = ItemAdapterSelected(requireContext(),it)
-        })
 
+
+        sharedViewModel.offersList.observe(viewLifecycleOwner,{
+            var off = it?.filter { it.isSelected }
+//            Log.i("ee","${off}")
+
+            recyclerView.adapter = off?.let { it1 -> ItemAdapterSelected(requireContext(), it1) }
+
+
+        })
 
         val spinner = binding.spinner
 

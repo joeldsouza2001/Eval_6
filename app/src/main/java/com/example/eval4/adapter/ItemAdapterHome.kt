@@ -17,7 +17,7 @@ import com.example.eval4.model.Item
 class ItemAdapterHome(
     private val context: Context,
     private val dataset: List<Offers>,
-    private val toggleItemSelect: (Offers) -> Unit
+    private val toggleItemSelect: (Offers,Int) -> Unit
 ) : RecyclerView.Adapter<ItemAdapterHome.ItemViewHolder>() {
 
     class ItemViewHolder(binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -54,10 +54,10 @@ class ItemAdapterHome(
                 )?.constantState
             ) {
                 holder.layout.setBackgroundResource(R.drawable.border_select)
-                toggleItemSelect(curItem)
+                toggleItemSelect(curItem,position)
             } else {
                 holder.layout.setBackgroundResource(R.drawable.border)
-                toggleItemSelect(curItem)
+                toggleItemSelect(curItem,position)
 
             }
         }
